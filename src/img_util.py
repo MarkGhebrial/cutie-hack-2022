@@ -6,7 +6,7 @@ def avg_pixel_brightness(im: Image):
 
     for x in range(im.width):
         for y in range(im.height):
-            sum += im.getpixel((x, y))
+            sum += im.getpixel((x, y))[0]
             count += 1
 
     return sum / count

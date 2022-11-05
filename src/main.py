@@ -1,7 +1,7 @@
 import argparse
 from PIL import Image, ImageEnhance, ImageFont, ImageDraw
 
-CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()-_=+[]{\}|;:',<.>/?"
+CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()-_=+[]{\}|;:',<.>/? "
 
 from util import *
 
@@ -38,13 +38,14 @@ def main():
     font = ImageFont.truetype(fontName, 15)
 
     chunkWidth = math.ceil(im.width / args.columns)
-    chunkHeight = chunkWidth * font_proportions(font)
+    chunkHeight = int(chunkWidth * font_proportions(font))
 
     font = ImageFont.truetype(fontName, chunkHeight)
 
     charBrightnesses = {}
     for c in CHARACTERS:
-        charBrightnesses[c] = avg_pixel_brightness(char_to_img(c))
+        charBrightnesses[c] = avg_pixel_brightness(char_to_img(font, c))
+        print(c + " " + str(charBrightnesses[c]))
 
     art = ""
 

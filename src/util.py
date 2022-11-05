@@ -14,7 +14,7 @@ def bounding_box(font: ImageFont, s: str): # Returns a tuple of (width, height):
     return (width, height)
 
 def char_to_img(font: ImageFont, c: str): # Returns an Image
-    (w, h) = bounding_box(c)
+    (w, h) = bounding_box(font, c)
 
     # Create an image that's the same size as the chracter
     img = Image.new("RGB", (w, h), (0, 0, 0))
@@ -22,6 +22,8 @@ def char_to_img(font: ImageFont, c: str): # Returns an Image
     d = ImageDraw.Draw(img)
 
     d.text((0, 0), c, font=font, fill=(255, 255, 255))
+
+    return img
 
 def font_proportions(font: ImageFont):
     '''
@@ -31,38 +33,49 @@ def font_proportions(font: ImageFont):
     '''
 
     boundingBox = bounding_box(font, "a")
-    for c in CHARACTERS:
-        if bounding_box(font, c) != boundingBox:
-            return None
+    # for c in CHARACTERS:
+    #     if bounding_box(font, c) != boundingBox:
+    #         return None
     return boundingBox[1] / boundingBox[0]
 
 
 def chunk_image(im: Image, font: ImageFont, columns = 50):
-    proportions = font_proportions(font)
+    proportions: float = font_proportions(font)
 
     chunkWidth = math.ceil(im.width / columns)
     chunkHeight = chunkWidth * proportions
 
-    for x in range(columns):
-        y = 0
-        while y < im.height:
+    y = 0
+    while y < im.height:
+        for x in range(columns):
             out = im.crop((x * chunkWidth, y, (x+1) * chunkWidth, y + chunkHeight))
-            y += int(chunkHeight)
             yield out
+        y += int(chunkHeight)
 
-def find_best_char(im: Image, char_brightnesses):
+def find_brightness_constant(char_brightnesses: dict):
+    max = char_brightnesses["a"]
+
+    for c in CHARACTERS:
+        if char_brightnesses[c] > max:
+            max = char_brightnesses[c]
+
+    return 255.0 / max
+
+def find_best_char(im: Image, char_brightnesses: dict):
     '''
     Find the character whoose brightness best matches the brightness of
     the image. Accepts a dictionary of `char: brightness` pairs
     '''
 
+    k = find_brightness_constant(char_brightnesses)
+
     imgBrightness = avg_pixel_brightness(im)
 
     bestChar = " "
     bestBrightness = 0
-    for (c, b) in char_brightnesses:
-        if (math.abs(imgBrightness - b) < math.abs(imgBrightness - bestBrightness)):
+    for c, b in char_brightnesses.items():
+        if (abs(imgBrightness - b * k) < abs(imgBrightness - bestBrightness)):
             bestChar = c
-            bestBrightness = b
+            bestBrightness = b * k
 
     return bestChar
