@@ -3,7 +3,16 @@ import math
 from main import CHARACTERS
 
 def bounding_box(font: ImageFont, s: str): # Returns a tuple of (width, height):
-    pass
+
+    (left, top, right, bottom) = font.getbbox(CHARACTERS)
+
+    height = bottom + top
+
+    (left, top, right, bottom) = font.getbbox(s)
+
+    width = right - left
+
+    return (width, height)
 
 def char_to_img(font: ImageFont, c: str): # Returns an Image
     (w, h) = bounding_box(c)

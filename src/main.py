@@ -45,11 +45,6 @@ def main():
 
     (tempL, tempT, tempR, tempB) = font.getbbox(txt)
 
-    print(tempL)
-    print(tempR)
-    print(top)
-    print(bottom)
-
     img = Image.new("RGB", (tempR - tempL, bottom + top), (0, 0, 0))
 
     d = ImageDraw.Draw(img)
