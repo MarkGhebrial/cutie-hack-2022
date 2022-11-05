@@ -33,26 +33,30 @@ def main():
     # Load image and convert it to grayscale
     im = ImageEnhance.Color(Image.open(args.imageName)).enhance(0.0)
 
-    for i in chunk_image(im, 1.6):
-        print(str(i.width) + " " + str(i.height))
     fontName = "cour.ttf"
 
     font = ImageFont.truetype(fontName, 15)
 
-    (left, top, right, bottom) = font.getbbox(CHARACTERS)
+    chunkWidth = math.ceil(im.width / args.columns)
+    chunkHeight = chunkWidth * font_proportions(font)
 
-    txt = "q"
+    font = ImageFont.truetype(fontName, chunkHeight)
 
-    (tempL, tempT, tempR, tempB) = font.getbbox(txt)
+    charBrightnesses = {}
+    for c in CHARACTERS:
+        charBrightnesses[c] = avg_pixel_brightness(char_to_img(c))
 
-    img = Image.new("RGB", (tempR - tempL, bottom + top), (0, 0, 0))
+    art = ""
 
-    d = ImageDraw.Draw(img)
+    col = 0
+    for img in chunk_image(im, font, args.columns):
+        art += find_best_char(img, charBrightnesses)
+        col += 1
+        if col >= args.columns:
+            col = 0
+            art += "\n"
 
-    d.text((0, 0), txt, font=font, fill=(255, 255, 255))
-
-    # img = font.getmask(args.imageName, mode='L')
-    img.show()
+    print(art)
 
 if __name__ == "__main__":
     main()

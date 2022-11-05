@@ -1,15 +1,14 @@
 from PIL import Image, ImageFont, ImageDraw
 import math
+
+from img_util import *
 from main import CHARACTERS
 
 def bounding_box(font: ImageFont, s: str): # Returns a tuple of (width, height):
-
     (left, top, right, bottom) = font.getbbox(CHARACTERS)
-
     height = bottom + top
 
     (left, top, right, bottom) = font.getbbox(s)
-
     width = right - left
 
     return (width, height)
@@ -50,3 +49,20 @@ def chunk_image(im: Image, font: ImageFont, columns = 50):
             out = im.crop((x * chunkWidth, y, (x+1) * chunkWidth, y + chunkHeight))
             y += int(chunkHeight)
             yield out
+
+def find_best_char(im: Image, char_brightnesses):
+    '''
+    Find the character whoose brightness best matches the brightness of
+    the image. Accepts a dictionary of `char: brightness` pairs
+    '''
+
+    imgBrightness = avg_pixel_brightness(im)
+
+    bestChar = " "
+    bestBrightness = 0
+    for (c, b) in char_brightnesses:
+        if (math.abs(imgBrightness - b) < math.abs(imgBrightness - bestBrightness)):
+            bestChar = c
+            bestBrightness = b
+
+    return bestChar
