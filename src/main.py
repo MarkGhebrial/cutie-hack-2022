@@ -1,6 +1,7 @@
 import argparse
-from PIL import Image
-from PIL import ImageEnhance
+from PIL import Image, ImageEnhance, ImageFont, ImageDraw
+
+CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()-_=+[]{\}|;:',<.>/?"
 
 from util import *
 
@@ -29,15 +30,34 @@ def main():
 
     args = parser.parse_args()
 
-    print(args.imageName)
-
-    print("Hello world")
-
     # Load image and convert it to grayscale
     im = ImageEnhance.Color(Image.open(args.imageName)).enhance(0.0)
 
     for i in chunk_image(im, 1.6):
         print(str(i.width) + " " + str(i.height))
+    fontName = "cour.ttf"
+
+    font = ImageFont.truetype(fontName, 15)
+
+    (left, top, right, bottom) = font.getbbox(CHARACTERS)
+
+    txt = "q"
+
+    (tempL, tempT, tempR, tempB) = font.getbbox(txt)
+
+    print(tempL)
+    print(tempR)
+    print(top)
+    print(bottom)
+
+    img = Image.new("RGB", (tempR - tempL, bottom + top), (0, 0, 0))
+
+    d = ImageDraw.Draw(img)
+
+    d.text((0, 0), txt, font=font, fill=(255, 255, 255))
+
+    # img = font.getmask(args.imageName, mode='L')
+    img.show()
 
 if __name__ == "__main__":
     main()
