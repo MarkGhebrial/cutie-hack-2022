@@ -1,4 +1,6 @@
 import argparse
+from PIL import Image
+from PIL import ImageEnhance
 
 def main():
     parser = argparse.ArgumentParser(description="Convert an image to ASCII art.")
@@ -23,6 +25,8 @@ def main():
 
     print("Hello world")
 
+    # Load image and convert it to grayscale
+    im = ImageEnhance.Color(Image.open(args.imageName)).enhance(0.0)
 
 if __name__ == "__main__":
     main()
