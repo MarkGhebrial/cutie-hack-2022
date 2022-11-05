@@ -59,7 +59,7 @@ def find_brightness_constant(char_brightnesses: dict):
         if char_brightnesses[c] > max:
             max = char_brightnesses[c]
 
-    return 255.0 / max
+    return 500.0 / max
 
 def find_best_char(im: Image, char_brightnesses: dict):
     '''
