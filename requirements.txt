@@ -1,3 +1,2 @@
 argparse
-fonttools
 Pillow
