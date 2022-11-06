@@ -13,15 +13,21 @@ def bounding_box(font: ImageFont, s: str): # Returns a tuple of (width, height):
 
     return (width, height)
 
-def char_to_img(font: ImageFont, c: str): # Returns an Image
+def char_to_img(font: ImageFont, c: str, invert = False): # Returns an Image
     (w, h) = bounding_box(font, c)
 
+    textColor = (255, 255, 255)
+    background = (0, 0, 0)
+    if invert:
+        textColor = (0, 0, 0)
+        background = (255, 255, 255)
+
     # Create an image that's the same size as the chracter
-    img = Image.new("RGB", (w, h), (0, 0, 0))
+    img = Image.new("RGB", (w, h), background)
 
     d = ImageDraw.Draw(img)
 
-    d.text((0, 0), c, font=font, fill=(255, 255, 255))
+    d.text((0, 0), c, font=font, fill=textColor)
 
     return img
 
@@ -52,7 +58,10 @@ def chunk_image(im: Image, font: ImageFont, columns = 50):
             yield out
         y += int(chunkHeight)
 
-def find_brightness_constant(char_brightnesses: dict):
+def find_brightness_constant(char_brightnesses: dict, invert = False):
+    if invert:
+        return 0.75
+
     max = char_brightnesses["a"]
 
     for c in CHARACTERS:
@@ -61,13 +70,13 @@ def find_brightness_constant(char_brightnesses: dict):
 
     return 500.0 / max
 
-def find_best_char(im: Image, char_brightnesses: dict):
+def find_best_char(im: Image, char_brightnesses: dict, invert = False):
     '''
     Find the character whoose brightness best matches the brightness of
     the image. Accepts a dictionary of `char: brightness` pairs
     '''
 
-    k = find_brightness_constant(char_brightnesses)
+    k = find_brightness_constant(char_brightnesses, invert)
 
     imgBrightness = avg_pixel_brightness(im)
 

@@ -16,9 +16,16 @@ def main():
         default="cascadia",
         help="Which font to use, must be a monospace font"
     )
-    parser.add_argument("-o",
+    parser.add_argument(
+        "-o",
         dest="outName",
         help="What file to output the resulting art to"
+    )
+    parser.add_argument(
+        "-i", "--invert",
+        dest="inverted",
+        action="store_true",
+        help="Invert image colors if this flag is set (to appear better on light mode terminals)"
     )
 
     parser.add_argument(
@@ -54,13 +61,12 @@ def main():
 
     charBrightnesses = {}
     for c in CHARACTERS:
-        charBrightnesses[c] = avg_pixel_brightness(char_to_img(font, c))
-        # print(c + " " + str(charBrightnesses[c]))
+        charBrightnesses[c] = avg_pixel_brightness(char_to_img(font, c, invert=args.inverted))
 
     art = "" # The final ASCII art
     col = 0
     for img in chunk_image(im, font, args.columns):
-        art += find_best_char(img, charBrightnesses)
+        art += find_best_char(img, charBrightnesses, invert=args.inverted)
         col += 1
         if col >= args.columns: # Next row
             col = 0
