@@ -1,4 +1,7 @@
 src/__pycache__
 
+# PyInstaller files
 dist
 build
+imascii.spec
+main.spec

@@ -1,6 +1,8 @@
 import PyInstaller.__main__
 
 PyInstaller.__main__.run([
-    'src/main.py',
-    '--onefile'
+    "src/main.py",
+    "--onefile",
+    "--add-data", "fonts:fonts",
+    "--name", "imascii"
 ])

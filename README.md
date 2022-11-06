@@ -13,6 +13,8 @@ best viewed there.
 
 # Run the program
 
+For pre-built executables, check the releases on this repository.
+
 Install python3 and pip.
 
 Install dependencies with `pip install -r requirements.txt`.
