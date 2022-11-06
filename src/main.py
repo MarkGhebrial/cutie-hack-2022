@@ -79,5 +79,24 @@ def main():
     else:
         print(art)
 
+    # Convert ASCII into an image
+    # !!! Images after a certain size get cut off.
+    # !!! The 'im.height * 2' was done to fix this.
+    # !!! It does not work properly if the amount of columns is 499 or less.
+    # !!! It does work properly if the amount of columns is 500 or greater.
+    picture = Image.new("RGB", (im.width, im.height * 2), (0, 0, 0))
+    d = ImageDraw.Draw(picture)
+
+    col = 0
+    hei = 0
+    for c in art:
+        d.text((col, hei), c, font=font, fill=(255, 255, 255))
+        col += chunkWidth
+        if (col > (args.columns * chunkWidth)):
+            col = 0
+            hei += chunkHeight
+
+    picture.show()
+
 if __name__ == "__main__":
     main()

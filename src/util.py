@@ -26,8 +26,7 @@ def char_to_img(font: ImageFont, c: str, invert = False): # Returns an Image
     img = Image.new("RGB", (w, h), background)
 
     d = ImageDraw.Draw(img)
-
-    d.text((0, 0), c, font=font, fill=textColor)
+    d.multiline_text((0, 0), c, font=font, fill=textColor)
 
     return img
 
