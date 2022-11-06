@@ -55,7 +55,7 @@ def main():
     charBrightnesses = {}
     for c in CHARACTERS:
         charBrightnesses[c] = avg_pixel_brightness(char_to_img(font, c))
-        print(c + " " + str(charBrightnesses[c]))
+        # print(c + " " + str(charBrightnesses[c]))
 
     art = "" # The final ASCII art
     col = 0
