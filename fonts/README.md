@@ -1,3 +1,14 @@
+## Cascadia Mono:
+
+Copyright (c) 2019 - Present, Microsoft Corporation,
+with Reserved Font Name Cascadia Code.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is available with a FAQ at:
+http://scripts.sil.org/OFL
+
+---
+
 ## Fantasque Sans Mono:
 
 Copyright (c) 2013-2017, Jany Belluz (jany.belluz@hotmail.fr)

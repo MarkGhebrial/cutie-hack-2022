@@ -13,7 +13,7 @@ def main():
         "-f", "--font",
         dest="fontName",
         choices=fontList,
-        default="sourcecodepro",
+        default="cascadia",
         help="Which font to use, must be a monospace font"
     )
     parser.add_argument("-o",
