@@ -4,4 +4,5 @@ src/__pycache__
 dist
 build
 imascii.spec
+
 main.spec

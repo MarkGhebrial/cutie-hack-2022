@@ -1,3 +1,2 @@
-argparse
-Pillow
-pyinstaller
+Pillow      == 9.3.*
+pyinstaller == 5.6.*
