@@ -48,7 +48,7 @@ def font_proportions(font: ImageFont):
 def chunk_image(im: Image, font: ImageFont, columns = 50):
     proportions: float = font_proportions(font)
 
-    chunkWidth = math.ceil(im.width / columns)
+    chunkWidth = im.width / columns
     chunkHeight = chunkWidth * proportions
 
     y = 0

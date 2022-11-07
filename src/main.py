@@ -51,9 +51,9 @@ def main():
     fontPath = fontDict[args.fontName]
 
     # Load the font initially to caluate the proportions of its caracters
-    font = ImageFont.truetype(fontPath, 150)
+    font = ImageFont.truetype(fontPath, 12)
 
-    chunkWidth = math.ceil(im.width / args.columns)
+    chunkWidth = im.width / args.columns
     chunkHeight = int(chunkWidth * font_proportions(font))
 
     # Load the font a second time to size the caracters correctly
